@@ -22,6 +22,23 @@
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
 
+            <table id="grid-info">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>x</th>
+                    <th>y</th>
+                </tr>
+                </thead>
+                <tbody>
+                <td><f:display property="id" bean="${grid}" /></td>
+                <td><f:display property="name" bean="${grid}" /></td>
+                <td><f:display property="x" bean="${grid}" /></td>
+                <td><f:display property="y" bean="${grid}" /></td>
+                </tbody>
+            </table>
+
             <g:render template="game_of_life_table" />
 
             <g:link class="delete" action="delete" controller="grid" id="${grid.id}"><g:message code="default.button.delete.label" default="Del" /></g:link>
@@ -29,6 +46,7 @@
             <a href="#" id="start-game-of-life">START</a>
             <a href="#" id="stop-game-of-life" style="display:none;">STOP</a>
             <img id="spinner" style="display:none;" src="${createLinkTo(dir: 'images', file: 'spinner.gif')}" alt="Spinner"/>
+            <label>generation: </label><label id="generation">0</label>
 
             <g:javascript library="jquery" plugin="jquery">
                 $(document).ready(function() {
@@ -54,22 +72,13 @@
                     })
 
                     function live() {
-                        if (isRunning){
-                            $( "#game-of-life-grid" ).load( '/grid/evolute/' + ${grid.id} + ' #game-of-life-grid', function() {
+                        $( "#game-of-life-grid" ).load( '/grid/evolute/' + ${grid.id} + ' #game-of-life-grid', function() {
+                            $("#generation").text(parseInt($("#generation").text()) + 1)
+                            if (isRunning){
                                 live();
-                            } );
-                        }
+                            }
+                        } );
                     }
-
-                    %{--setInterval(function() {--}%
-                        %{--if (isRunning){--}%
-                            %{--isRunning = false;--}%
-                            %{--$( "#game-of-life-grid" ).load( '/grid/evolute/' + ${grid.id} + ' #game-of-life-grid', function() {--}%
-
-                            %{--} );--}%
-                            %{--isRunning = true;--}%
-                        %{--}--}%
-                    %{--}, 1000);--}%
                 });
 
 
