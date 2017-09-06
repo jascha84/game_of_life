@@ -24,7 +24,7 @@ class CellCommand implements Validateable {
 
     static constraints = {
         id nullable: true
-        age min: 1
+        age nullable: true
         x min: 0
         y min: 0
         neighbourList nullable: true

@@ -2,6 +2,8 @@
 <html>
     <head>
         <meta name="layout" content="main" />
+        <asset:javascript src="application.js"/>
+        <asset:stylesheet src="application.css"/>
         <g:set var="entityName" value="${message(code: 'grid.label', default: 'Grid')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
@@ -20,79 +22,41 @@
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
 
-            <table id="grid-info">
-                <thead>
-                <tr>
-                    <th>id</th>
-                    <th>name</th>
-                    <th>x</th>
-                    <th>y</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <td><f:display property="id" bean="${grid}" /></td>
-                    <td><f:display property="name" bean="${grid}" /></td>
-                    <td><f:display property="x" bean="${grid}" /></td>
-                    <td><f:display property="y" bean="${grid}" /></td>
-                </tbody>
-            </table>
+            <g:render template="game_of_life_table" />
 
-            <style>
-                #game-of-life-grid {width: 0}
-                #game-of-life-grid tr:hover {background: none}
-                #game-of-life-grid tr>td:last-child, tr>th:last-child {padding-right: 0.6em;}
-                #game-of-life-grid tr>td:first-child, tr>th:first-child  {padding-left: 0.6em;}
-                #game-of-life-grid tr td {border: 1px solid;}
-                #game-of-life-grid tr td:hover {background: lightgreen}
-                .hasCell {background: red}
-            </style>
-
-            <table id="game-of-life-grid" >
-                <% (1..grid.x).each { col -> %>
-                    <tr>
-                        <% (1..grid.y).each { row -> %>
-                            <td onclick="toggleCell(this, ${col}, ${row}, ${grid.id})"
-                                <% if (cellList.findAll{it.x == col && it.y == row}) { %>
-                                 <% out << 'class="hasCell"' %>
-                                <% } %>
-                            > </td>
-                        <%  } %>
-                    </tr>
-                <%} %>
-
-            </table>
-            <script>
-                function toggleCell(td, col, row, gridId){
-
-                    if (td.classList.contains("hasCell")){
-                        var xhttp = new XMLHttpRequest();
-                        xhttp.onreadystatechange = function() {
-                            if (this.readyState == 4 && this.status == 200) {
-//                                console.log(this.responseText)
-                            }
-                        };
-                        xhttp.open("POST", "/cell/delete", true);
-                        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                        xhttp.send("x=" + col + "&y=" + row + "&grid=" + gridId );
-
-                    } else {
-                        var xhttp = new XMLHttpRequest();
-                        xhttp.onreadystatechange = function() {
-                            if (this.readyState == 4 && this.status == 200) {
-//                                console.log(this.responseText)
-                            }
-                        };
-                        xhttp.open("POST", "/cell/save", true);
-                        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                        xhttp.send("age=1&x=" + col + "&y=" + row + "&grid=" + gridId );
-                    }
-
-                    td.classList.toggle("hasCell")
-
-                }
-            </script>
             <g:link class="delete" action="delete" controller="grid" id="${grid.id}"><g:message code="default.button.delete.label" default="Del" /></g:link>
-            <g:link class="evolute" action="evolute" controller="grid" id="${grid.id}">EVOLUTE</g:link>
+
+            <a href="#" class="button" id="start-game-of-life">START</a>
+            <a href="#" class="button" id="stop-game-of-life" style="display:none;">STOP</a>
+            <img id="spinner" style="display:none;" src="${createLinkTo(dir: 'images', file: 'spinner.gif')}" alt="Spinner"/>
+
+            <g:javascript library="jquery" plugin="jquery">
+                $(document).ready(function() {
+
+                    var isRunning = false;
+
+                    $('#start-game-of-life').click(function() {
+                        isRunning = true;
+                        $('#start-game-of-life').hide()
+                        $('#stop-game-of-life').show()
+                        $('#spinner').show()
+                    })
+
+                    $('#stop-game-of-life').click(function() {
+                        isRunning = false;
+                        $('#stop-game-of-life').hide()
+                        $('#start-game-of-life').show()
+                        $('#spinner').hide()
+                    })
+                    setInterval(function() {
+                        if (isRunning){
+                            isRunning = false;
+                            $( "#game-of-life-grid" ).load( '/grid/evolute/' + ${grid.id} + ' #game-of-life-grid' );
+                            isRunning = true;
+                        }
+                    }, 1000);
+                });
+            </g:javascript>
         </div>
     </body>
 </html>

@@ -10,7 +10,7 @@ class Cell {
     static hasMany = [neighbour: Cell]
 
     static constraints = {
-        age min: 0
+        age nullable: true
         x min: 0
         y min: 0
         neighbour max: 8
