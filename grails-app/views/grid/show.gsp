@@ -26,12 +26,15 @@
 
             <g:link class="delete" action="delete" controller="grid" id="${grid.id}"><g:message code="default.button.delete.label" default="Del" /></g:link>
 
-            <a href="#" class="button" id="start-game-of-life">START</a>
-            <a href="#" class="button" id="stop-game-of-life" style="display:none;">STOP</a>
+            <a href="#" id="start-game-of-life">START</a>
+            <a href="#" id="stop-game-of-life" style="display:none;">STOP</a>
             <img id="spinner" style="display:none;" src="${createLinkTo(dir: 'images', file: 'spinner.gif')}" alt="Spinner"/>
 
             <g:javascript library="jquery" plugin="jquery">
                 $(document).ready(function() {
+                    $('.game-of-life-grid-cell').click(function () {
+                        toggleCell($(this), $(this).attr('data-col'), $(this).attr('data-row'), $(this).attr('data-grid-id'))
+                    });
 
                     var isRunning = false;
 
@@ -56,7 +59,34 @@
                         }
                     }, 1000);
                 });
+
+                function toggleCell(td, col, row, gridId){
+
+                    if (td.hasClass("hasCell")){
+                        doThePost("/cell/delete", col, row, gridId)
+
+                    } else {
+                        doThePost("/cell/save", col, row, gridId)
+                    }
+
+                    td.toggleClass("hasCell")
+
+                }
+
+                function doThePost(endpoint, col, row ,gridId) {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+//                                console.log(this.responseText)
+                        }
+                    };
+                    xhttp.open("POST", endpoint, true);
+                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhttp.send("x=" + col + "&y=" + row + "&grid=" + gridId );
+                }
+
             </g:javascript>
+
         </div>
     </body>
 </html>
