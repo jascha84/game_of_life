@@ -17,15 +17,32 @@
         <div id="show-cell" class="content scaffold-show" role="main">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="message" role="status">${flash.message}</div>
+                <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:display bean="cell" />
-            <g:form resource="${this.cell}" method="DELETE">
-                <fieldset class="buttons">
-                    <g:link class="edit" action="edit" resource="${this.cell}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-                    <input class="delete" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-                </fieldset>
-            </g:form>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>age</th>
+                    <th>x</th>
+                    <th>y</th>
+                    <th>neighbour</th>
+                    <th>grid</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <td><f:display property="id" bean="${cell}" /></td>
+                    <td><f:display property="age" bean="${cell}" /></td>
+                    <td><f:display property="x" bean="${cell}" /></td>
+                    <td><f:display property="y" bean="${cell}" /></td>
+                    <td><f:display property="neighbour" bean="${cell}" /></td>
+                    <td><f:display property="grid" bean="${cell}" /></td>
+                </tbody>
+            </table>
+
+            <g:link class="edit" action="edit" controller="cell" id="${cell.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+            <g:link class="delete" action="delete" controller="cell" id="${cell.id}"><g:message code="default.button.delete.label" default="Del" /></g:link>
         </div>
     </body>
 </html>

@@ -26,10 +26,31 @@
                 </g:eachError>
             </ul>
             </g:hasErrors>
-            <g:form resource="${this.cell}" method="PUT">
-                <g:hiddenField name="version" value="${this.cell?.version}" />
+            <g:form action="update" method="PUT">
+                <g:hiddenField name="id" bean="${cellCommand}" />
+                <g:hiddenField name="x" bean="${cellCommand}" />
+                <g:hiddenField name="y" bean="${cellCommand}" />
+
                 <fieldset class="form">
-                    <f:all bean="cell"/>
+                    <f:field property="age" bean="${cellCommand}" />
+                    <g:renderErrors bean="${cellCommand}" field="age" />
+
+                    <div class="fieldcontain">
+                        <label for="x">X</label>
+                    <f:display property="x" bean="${cellCommand}" />
+                    </div>
+
+                    <div class="fieldcontain">
+                        <label for="y">Y</label>
+                        <f:display property="y" bean="${cellCommand}" />
+                    </div>
+
+                    <div class="fieldcontain">
+                        <label for="neighbourList">Neigbours</label>
+                        <g:select name="neighbourList" from="${cellCommand.neighbourList}" value="${cellCommand.neighbourList.id}" optionKey="id" multiple="true"/>
+                    </div>
+
+
                 </fieldset>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />

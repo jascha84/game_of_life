@@ -4,6 +4,7 @@ class Grid {
 
     Integer x
     Integer y
+    String name
 
     static hasMany = [cells: Cell]
 
