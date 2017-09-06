@@ -43,6 +43,7 @@
                         $('#start-game-of-life').hide()
                         $('#stop-game-of-life').show()
                         $('#spinner').show()
+                        live();
                     })
 
                     $('#stop-game-of-life').click(function() {
@@ -51,14 +52,26 @@
                         $('#start-game-of-life').show()
                         $('#spinner').hide()
                     })
-                    setInterval(function() {
+
+                    function live() {
                         if (isRunning){
-                            isRunning = false;
-                            $( "#game-of-life-grid" ).load( '/grid/evolute/' + ${grid.id} + ' #game-of-life-grid' );
-                            isRunning = true;
+                            $( "#game-of-life-grid" ).load( '/grid/evolute/' + ${grid.id} + ' #game-of-life-grid', function() {
+                                live();
+                            } );
                         }
-                    }, 1000);
+                    }
+
+                    %{--setInterval(function() {--}%
+                        %{--if (isRunning){--}%
+                            %{--isRunning = false;--}%
+                            %{--$( "#game-of-life-grid" ).load( '/grid/evolute/' + ${grid.id} + ' #game-of-life-grid', function() {--}%
+
+                            %{--} );--}%
+                            %{--isRunning = true;--}%
+                        %{--}--}%
+                    %{--}, 1000);--}%
                 });
+
 
                 function toggleCell(td, col, row, gridId){
 
