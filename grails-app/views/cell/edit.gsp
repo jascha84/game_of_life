@@ -32,8 +32,6 @@
                 <g:hiddenField name="y" bean="${cellCommand}" />
 
                 <fieldset class="form">
-                    <f:field property="age" bean="${cellCommand}" />
-                    <g:renderErrors bean="${cellCommand}" field="age" />
 
                     <div class="fieldcontain">
                         <label for="x">X</label>
@@ -44,12 +42,6 @@
                         <label for="y">Y</label>
                         <f:display property="y" bean="${cellCommand}" />
                     </div>
-
-                    <div class="fieldcontain">
-                        <label for="neighbourList">Neigbours</label>
-                        <g:select name="neighbourList" from="${cellCommand.neighbourList}" value="${cellCommand.neighbourList.id}" optionKey="id" multiple="true"/>
-                    </div>
-
 
                 </fieldset>
                 <fieldset class="buttons">

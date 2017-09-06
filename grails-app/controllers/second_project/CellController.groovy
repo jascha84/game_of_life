@@ -38,10 +38,8 @@ class CellController {
         cellCommand.clearErrors()
 
         def cell = Cell.get(cellCommand.id)
-        cellCommand.age = cell.age
         cellCommand.x = cell.x
         cellCommand.y = cell.y
-        cellCommand.neighbourList.addAll(cell.neighbour)
 
         [cellCommand: cellCommand]
     }

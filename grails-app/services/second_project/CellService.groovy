@@ -21,10 +21,8 @@ class CellService {
         }
         if (!cellCommand.hasErrors()){
             new Cell(
-                    age: cellCommand.age,
                     x: cellCommand.x,
                     y: cellCommand.y,
-                    neighbour: cellCommand.neighbourList,
                     grid: cellCommand.grid
             ).save()
         } else {
@@ -34,7 +32,6 @@ class CellService {
 
     Cell createWithCoordinate(Integer x, Integer y, Grid grid) {
         def cell = new Cell(
-                age: 1,
                 x: x,
                 y: y,
                 grid: grid

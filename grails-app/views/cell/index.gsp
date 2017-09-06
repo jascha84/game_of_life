@@ -28,7 +28,6 @@
                 <th>age</th>
                 <th>x</th>
                 <th>y</th>
-                <th>neighbour</th>
                 <th>grid</th>
                 <th>action</th>
             </tr>
@@ -37,10 +36,8 @@
             <g:each var="cell" in="${cellList}">
                 <tr>
                     <td><f:display property="id" bean="${cell}"/></td>
-                    <td><f:display property="age" bean="${cell}"/></td>
                     <td><f:display property="x" bean="${cell}"/></td>
                     <td><f:display property="y" bean="${cell}"/></td>
-                    <td><f:display property="neighbour" bean="${cell}" /></td>
                     <td><f:display property="grid" bean="${cell}" /></td>
                     <td>
                         <g:link class="show" action="show" controller="cell" id="${cell.id}"><g:message code="default.show.label"

@@ -8,8 +8,6 @@ class GridCommand implements Validateable {
     Integer y
     String name
 
-    List<Cell> cellList = new ArrayList<Cell>()
-
     static constraints = {
         x min: 0
         y min: 0

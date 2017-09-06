@@ -9,25 +9,20 @@ class CellCommand implements Validateable {
 
     CellCommand(Cell cell){
         id = cell.id
-        age = cell.age
         x = cell.x
         y = cell.y
         grid = cell.grid
     }
 
-    Integer age
     Long id
     Integer x
     Integer y
-    List<Cell> neighbourList = new ArrayList<Cell>()
     Grid grid
 
     static constraints = {
         id nullable: true
-        age nullable: true
         x min: 0
         y min: 0
-        neighbourList nullable: true
         grid nullable: true
     }
 

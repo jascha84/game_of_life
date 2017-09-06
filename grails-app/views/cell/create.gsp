@@ -27,9 +27,6 @@
             </g:hasErrors>
             <g:form action="save" method="POST">
                 <fieldset class="form">
-                    <f:field property="age" bean="${cellCommand}" />
-                    <g:renderErrors bean="${cellCommand}" field="age" />
-
                     <f:field property="x" bean="${cellCommand}" />
                     <g:renderErrors bean="${cellCommand}" field="x" />
 
