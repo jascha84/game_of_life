@@ -32,6 +32,7 @@ class GridController {
         [grid: grid, cellList: cellList]
     }
 
+//    https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
     def evolute (Grid grid) {
         def cellList = Cell.findAllByGrid(grid)
 
@@ -88,9 +89,7 @@ class GridController {
                         cellService.createWithCoordinate(x+1,y+1,grid)
                     }
                 }
-
             }
-
         }
 
         render(template: "game_of_life_table", model:[grid: grid, cellList: cellList])
