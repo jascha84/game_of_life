@@ -37,6 +37,8 @@ class GridController {
         def cellList = Cell.findAllByGrid(grid)
 
         def simpleGrid = new int[grid.x][grid.y]
+        def deleteGrid = new int[grid.x][grid.y]
+        def createGrid = new int[grid.x][grid.y]
 
         cellList.each { cell ->
             simpleGrid[cell.x-1][cell.y-1] = 1
@@ -79,18 +81,24 @@ class GridController {
 
                 if (simpleGrid[x][y] == 1){
                     if (numberofNeigbours < 2){
-                        cellService.deleteWithCoordinates(x+1,y+1,grid)
+                        deleteGrid[x][y] = 1
+//                        cellService.deleteWithCoordinates(x+1,y+1,grid)
                     }
                     if (numberofNeigbours > 3){
-                        cellService.deleteWithCoordinates(x+1,y+1,grid)
+                        deleteGrid[x][y] = 1
+//                        cellService.deleteWithCoordinates(x+1,y+1,grid)
                     }
                 } else {
                     if (numberofNeigbours == 3){
+                        createGrid[x][y] = 1
                         cellService.createWithCoordinate(x+1,y+1,grid)
                     }
                 }
             }
         }
+
+        cellService.deleteWithCoordinateGrid(deleteGrid, grid)
+
 
         render(template: "game_of_life_table", model:[grid: grid, cellList: cellList])
 
