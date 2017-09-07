@@ -46,20 +46,6 @@ class CellService {
         cell.delete()
     }
 
-    void deleteWithCoordinates(Integer x, Integer y, Grid grid) {
-        def delCellList = Cell.withCriteria {
-            eq 'x', x
-            eq 'y', y
-            eq 'grid', grid
-        }
-        if (delCellList) {
-            def delCell = delCellList.first()
-            if (delCell) {
-                delete(delCell)
-            }
-        }
-    }
-
     void deleteWithCoordinateGrid(Object deleteGrid, Grid grid) {
         Cell.where {
             or {
@@ -76,15 +62,16 @@ class CellService {
                 }
             }
         }.deleteAll()
+    }
 
-//        Cell.where {
-//            'in' 'x', x and {'in' 'y', y}
-
-//            'in' 'x', x1 and {'in' 'y', y1}
-
-//            'in' 'x', x2 and {'in' 'y', y2}
-//
-//            eq 'grid', grid
-//        }.deleteAll()
+    void createWithCoordinateGrid(Object createGrid, Grid grid) {
+        for (def x = 0; x < createGrid.length; x++) {
+            for (def y = 0; y < createGrid[x].length; y++) {
+                if (createGrid[x][y] == 1){
+                    createWithCoordinate(x+1,y+1,grid)
+                }
+            }
+        }
+        return
     }
 }
