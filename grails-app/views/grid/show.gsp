@@ -52,19 +52,21 @@
 
             <g:javascript library="jquery" plugin="jquery">
                 $(document).ready(function() {
-                    $('.game-of-life-grid-cell').click(function () {
-                        toggleCell($(this), $(this).attr('data-col'), $(this).attr('data-row'), $(this).attr('data-grid-id'))
-                    });
-
                     var isRunning = false;
-                    live();
+                    getCellData();
+
+                     $('.game-of-life-grid-cell').click(function () {
+                        if (!isRunning){
+                            toggleCell($(this), $(this).attr('data-col'), $(this).attr('data-row'), $(this).attr('data-grid-id'))
+                        }
+                    });
 
                     $('#start-game-of-life').click(function() {
                         isRunning = true;
                         $('#start-game-of-life').hide()
                         $('#stop-game-of-life').show()
                         $('#spinner').show()
-                        live();
+                        getCellData();
                     })
 
                     $('#stop-game-of-life').click(function() {
@@ -74,7 +76,7 @@
                         $('#spinner').hide()
                     })
 
-                    function live() {
+                    function getCellData() {
                          $.getJSON('/grid/evolute/' + ${grid.id} + '?running='+isRunning, function(result){
                             if (result.cellList.length > 1){
 
@@ -87,7 +89,7 @@
 
                                 $("#generation").text(result.gridGeneration)
                                 if (isRunning){
-                                    live();
+                                    getCellData();
                                 }
                             }
                         });
