@@ -75,7 +75,7 @@
                     })
 
                     function live() {
-                         $.getJSON('/grid/evolute/' + ${grid.id}, function(result){
+                         $.getJSON('/grid/evolute/' + ${grid.id} + '?running='+isRunning, function(result){
                             if (result.cellList.length > 1){
 
                                 $(".hasCell").each(function() {

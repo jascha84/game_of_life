@@ -25,7 +25,6 @@
                 <th>id</th>
                 <th>x</th>
                 <th>y</th>
-                <th>grid</th>
                 <th>action</th>
             </tr>
         </thead>
