@@ -1,7 +1,6 @@
 package second_project
 
-import static org.springframework.http.HttpStatus.NOT_FOUND
-import static org.springframework.http.HttpStatus.NO_CONTENT
+import grails.converters.*
 
 class CellController {
 
@@ -17,84 +16,68 @@ class CellController {
         [cell: cell]
     }
 
-
-    def create(CellCommand cellCommand){
-        cellCommand.clearErrors()
-        [cellCommand: cellCommand]
-    }
-
     def save (CellCommand cellCommand){
-        def cell = cellService.save(cellCommand)
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'cell.label', default: 'Cell'), cell.id])
-                redirect cell
-            }
-            '*' {respond cell, [status: CREATED]}
+        if (cellCommand.validate()){
+            cellService.save(cellCommand)
+        } else {
+            notValid(cellCommand.errors.toString())
         }
     }
 
-    def edit (CellCommand cellCommand){
-        cellCommand.clearErrors()
-
-        def cell = Cell.get(cellCommand.id)
-        cellCommand.x = cell.x
-        cellCommand.y = cell.y
-
-        [cellCommand: cellCommand]
-    }
-
-    def update (CellCommand cellCommand){
-        if (cellCommand == null){
+    private deleteCell (Cell cell){
+        if (cell == null){
             notFound()
             return
         }
 
-        def cell = cellService.save(cellCommand)
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'cell.label', default: 'Cell'), cell.id])
-                redirect cell
-            }
-            '*' {respond cell, [status: OK]}
-        }
-    }
-
-    def delete (Cell cell){
-        if (cell == null){
-            notFound()
-        }
-        if (cell.id == null && cell.x != null && cell.y != null && cell.grid){
+        if (cell.id == null){
             def cellList = Cell.withCriteria {
                 eq 'x', cell.x
                 eq 'y', cell.y
                 eq 'grid', cell.grid
             }
-            if (cellList){
+            if (cellList) {
                 cell = cellList.first()
             }
         }
-
         cellService.delete(cell)
+    }
+
+    def deleteJson (Cell cell){
+        deleteCell(cell)
+
+        def responseData = [
+                'status': "OK"
+        ]
+        render responseData as JSON
+    }
+
+    def delete (Cell cell){
+        deleteCell(cell)
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'cell.label', default: 'Cell'), cell.id])
                 redirect action: "index", method: "GET"
             }
-            '*' { render status: NO_CONTENT }
         }
     }
 
-    protected void notFound() {
+    def notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'cell.label', default: 'Cell'), params.id])
+                flash.message = message(code: 'default.not.found.message')
                 redirect action: "index", method: "GET"
             }
-            '*' { render status: NOT_FOUND }
         }
     }
 
+    def notValid(String message) {
+        request.withFormat {
+            form multipartForm {
+                flash.message = message
+                redirect action: "index", method: "GET"
+            }
+        }
+    }
 }

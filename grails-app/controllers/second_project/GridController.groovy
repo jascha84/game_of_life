@@ -1,5 +1,7 @@
 package second_project
 
+import grails.converters.JSON
+
 class GridController {
 
     def gridService
@@ -111,7 +113,10 @@ class GridController {
             cellService.deleteWithCoordinateGrid(deleteGrid, grid)
         }
 
-        render(template: "game_of_life_table", model: [grid: grid, cellList: cellList])
+        def responseData = [
+                'cellList': cellList
+        ]
+        render responseData as JSON
 
     }
 

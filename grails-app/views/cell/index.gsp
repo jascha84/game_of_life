@@ -10,8 +10,6 @@
 <div class="nav" role="navigation">
     <ul>
         <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-        <li><g:link class="create" action="create"><g:message code="default.new.label"
-                                                              args="[entityName]"/></g:link></li>
     </ul>
 </div>
 
@@ -25,7 +23,6 @@
         <thead>
             <tr>
                 <th>id</th>
-                <th>age</th>
                 <th>x</th>
                 <th>y</th>
                 <th>grid</th>
@@ -40,10 +37,9 @@
                     <td><f:display property="y" bean="${cell}"/></td>
                     <td><f:display property="grid" bean="${cell}" /></td>
                     <td>
-                        <g:link class="show" action="show" controller="cell" id="${cell.id}"><g:message code="default.show.label"
-                                                                                                            default="Show"/></g:link>
-                        <g:link class="edit" action="edit" controller="cell" id="${cell.id}"><g:message
-                        code="default.button.edit.label" default="Edit"/></g:link>
+                        <g:link class="show" action="show" controller="cell" id="${cell.id}"><g:message code="default.show.label"  args="['']" default="Show"/></g:link>
+                        <g:link class="delete" action="delete" controller="cell" id="${cell.id}"><g:message
+                        code="default.button.delete.label" default="Delete"/></g:link>
                     </td>
                 </tr>
             </g:each>

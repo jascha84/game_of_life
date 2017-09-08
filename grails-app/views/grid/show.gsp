@@ -55,6 +55,7 @@
                     });
 
                     var isRunning = false;
+                    live();
 
                     $('#start-game-of-life').click(function() {
                         isRunning = true;
@@ -72,12 +73,22 @@
                     })
 
                     function live() {
-                        $( "#game-of-life-grid" ).load( '/grid/evolute/' + ${grid.id} + ' #game-of-life-grid', function() {
-                            $("#generation").text(parseInt($("#generation").text()) + 1)
-                            if (isRunning){
-                                live();
+                         $.getJSON('/grid/evolute/' + ${grid.id}, function(result){
+                            if (result.cellList.length > 1){
+                                 $.each(result, function(i, cellList){
+                                    $(".hasCell").each(function() {
+                                      $(this).removeClass("hasCell")
+                                    })
+                                    $.each(cellList, function(i, cell){
+                                        $('[data-col="'+ cell.x + '"][data-row="' + cell.y +'"]').addClass("hasCell")
+                                    })
+                                });
+                                $("#generation").text(parseInt($("#generation").text()) + 1)
+                                if (isRunning){
+                                    live();
+                                }
                             }
-                        } );
+                        });
                     }
                 });
 
@@ -85,7 +96,7 @@
                 function toggleCell(td, col, row, gridId){
 
                     if (td.hasClass("hasCell")){
-                        doThePost("/cell/delete", col, row, gridId)
+                        doThePost("/cell/deleteJson", col, row, gridId)
 
                     } else {
                         doThePost("/cell/save", col, row, gridId)

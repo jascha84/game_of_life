@@ -10,11 +10,9 @@
 
     <table id="game-of-life-grid" >
         <% (1..grid.y).each { row -> %>
-            <tr>
-                <% (1..grid.x).each { col -> %>
-                     <td class="game-of-life-grid-cell <% if (cellList.findAll{it.x == col && it.y == row}) { out << 'hasCell' } %>" data-col="${col}" data-row="${row}" data-grid-id="${grid.id}" > </td>
-                <%  } %>
-            </tr>
+            <tr> <% (1..grid.x).each { col -> %>
+                     <td class="game-of-life-grid-cell" data-col="${col}" data-row="${row}" data-grid-id="${grid.id}"> </td>
+            <%  } %> </tr>
         <%} %>
 
     </table>

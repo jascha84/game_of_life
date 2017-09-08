@@ -31,15 +31,11 @@ class CellService {
     }
 
     void createWithCoordinate(Integer x, Integer y, Grid grid) {
-
         def cell = new Cell(
                 x: x,
                 y: y,
                 grid: grid
         ).save()
-
-        grid.addToCells(cell)
-
     }
 
     void delete(Cell cell) {

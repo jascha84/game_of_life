@@ -6,12 +6,6 @@ class Grid {
     Integer y
     String name
 
-    static hasMany = [cells: Cell]
-
-    static mapping = {
-        cells cascade: 'delete'
-    }
-
     static constraints = {
         x min: 0
         y min: 0
