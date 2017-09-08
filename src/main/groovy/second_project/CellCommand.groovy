@@ -5,15 +5,6 @@ import grails.validation.Validateable
 
 class CellCommand implements Validateable {
 
-    CellCommand(){}
-
-    CellCommand(Cell cell){
-        id = cell.id
-        x = cell.x
-        y = cell.y
-        grid = cell.grid
-    }
-
     Long id
     Integer x
     Integer y

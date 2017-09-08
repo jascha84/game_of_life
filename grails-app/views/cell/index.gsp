@@ -35,7 +35,6 @@
                     <td><f:display property="id" bean="${cell}"/></td>
                     <td><f:display property="x" bean="${cell}"/></td>
                     <td><f:display property="y" bean="${cell}"/></td>
-                    <td><f:display property="grid" bean="${cell}" /></td>
                     <td>
                         <g:link class="show" action="show" controller="cell" id="${cell.id}"><g:message code="default.show.label"  args="['']" default="Show"/></g:link>
                         <g:link class="delete" action="delete" controller="cell" id="${cell.id}"><g:message

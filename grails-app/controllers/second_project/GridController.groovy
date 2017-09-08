@@ -29,15 +29,16 @@ class GridController {
     }
 
     def show(Grid grid) {
-        def cellList = Cell.findAllByGrid(grid)
+        def cellList = grid.getCells()
 
         [grid: grid, cellList: cellList]
     }
 
 //    https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
     def evolute(Grid grid) {
+        grid.gridGeneration += 1
 
-        def cellList = Cell.findAllByGrid(grid)
+        def cellList = grid.getCells()
 
         def simpleGrid = new int[grid.x][grid.y]
         def deleteGrid = new int[grid.x][grid.y]
@@ -114,7 +115,7 @@ class GridController {
         }
 
         def responseData = [
-                'cellList': cellList
+                'cellList': cellList, 'gridGeneration': grid.gridGeneration
         ]
         render responseData as JSON
 

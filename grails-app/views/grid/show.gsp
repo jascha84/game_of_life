@@ -29,6 +29,7 @@
                     <th>name</th>
                     <th>x</th>
                     <th>y</th>
+                    <th>generation</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,7 @@
                 <td><f:display property="name" bean="${grid}" /></td>
                 <td><f:display property="x" bean="${grid}" /></td>
                 <td><f:display property="y" bean="${grid}" /></td>
+                <td><f:display property="gridGeneration" bean="${grid}" /></td>
                 </tbody>
             </table>
 
@@ -46,7 +48,7 @@
             <a href="#" id="start-game-of-life">START</a>
             <a href="#" id="stop-game-of-life" style="display:none;">STOP</a>
             <img id="spinner" style="display:none;" src="${createLinkTo(dir: 'images', file: 'spinner.gif')}" alt="Spinner"/>
-            <label>generation: </label><label id="generation">0</label>
+            <label>generation: </label><label id="generation">${grid.gridGeneration}</label>
 
             <g:javascript library="jquery" plugin="jquery">
                 $(document).ready(function() {
@@ -75,15 +77,15 @@
                     function live() {
                          $.getJSON('/grid/evolute/' + ${grid.id}, function(result){
                             if (result.cellList.length > 1){
-                                 $.each(result, function(i, cellList){
-                                    $(".hasCell").each(function() {
-                                      $(this).removeClass("hasCell")
-                                    })
-                                    $.each(cellList, function(i, cell){
-                                        $('[data-col="'+ cell.x + '"][data-row="' + cell.y +'"]').addClass("hasCell")
-                                    })
-                                });
-                                $("#generation").text(parseInt($("#generation").text()) + 1)
+
+                                $(".hasCell").each(function() {
+                                  $(this).removeClass("hasCell")
+                                })
+                                $.each(result.cellList, function(i, cell){
+                                    $('[data-col="'+ cell.x + '"][data-row="' + cell.y +'"]').addClass("hasCell")
+                                })
+
+                                $("#generation").text(result.gridGeneration)
                                 if (isRunning){
                                     live();
                                 }

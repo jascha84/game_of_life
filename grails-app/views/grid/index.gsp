@@ -28,6 +28,7 @@
             <th>name</th>
             <th>x</th>
             <th>y</th>
+            <th>generation</th>
             <th>action</th>
         </tr>
         </thead>
@@ -38,6 +39,7 @@
                 <td><f:display property="name" bean="${grid}"/></td>
                 <td><f:display property="x" bean="${grid}"/></td>
                 <td><f:display property="y" bean="${grid}"/></td>
+                <td><f:display property="gridGeneration" bean="${grid}"/></td>
                 <td>
                     <g:link class="show" action="show" controller="grid" id="${grid.id}"><g:message code="default.show.label"
                                                                                                     default="Show"/></g:link>

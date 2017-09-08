@@ -4,11 +4,11 @@ class Cell {
 
     Integer x
     Integer y
-    Grid grid
+
+    static belongsTo = [Grid]
 
     static constraints = {
         x min: 0
         y min: 0
-        grid nullable: true
     }
 }

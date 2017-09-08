@@ -25,14 +25,12 @@
                     <th>id</th>
                     <th>x</th>
                     <th>y</th>
-                    <th>grid</th>
                 </tr>
                 </thead>
                 <tbody>
                     <td><f:display property="id" bean="${cell}" /></td>
                     <td><f:display property="x" bean="${cell}" /></td>
                     <td><f:display property="y" bean="${cell}" /></td>
-                    <td><f:display property="grid" bean="${cell}" /></td>
                 </tbody>
             </table>
 

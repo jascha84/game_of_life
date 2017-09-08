@@ -30,21 +30,22 @@ class CellController {
             return
         }
 
-        if (cell.id == null){
-            def cellList = Cell.withCriteria {
-                eq 'x', cell.x
-                eq 'y', cell.y
-                eq 'grid', cell.grid
-            }
-            if (cellList) {
-                cell = cellList.first()
-            }
-        }
         cellService.delete(cell)
     }
 
-    def deleteJson (Cell cell){
-        deleteCell(cell)
+    def deleteJson (Integer x, Integer y, Integer grid) {
+        def currentGrid = Grid.findById(grid)
+        def cellsInGrid = currentGrid.getCells().collect({ it.id })
+
+        def cell = Cell.where {
+            eq 'x', x
+            eq 'y', y
+            id in cellsInGrid
+        }.list().first()
+        if (cell){
+            currentGrid.removeFromCells(cell)
+            deleteCell(cell)
+        }
 
         def responseData = [
                 'status': "OK"
@@ -53,6 +54,9 @@ class CellController {
     }
 
     def delete (Cell cell){
+        Grid.list().each { grid ->
+            grid.removeFromCells(cell)
+        }
         deleteCell(cell)
 
         request.withFormat {

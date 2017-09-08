@@ -14,7 +14,8 @@ class GridService {
             new Grid(
                     x: gridCommand.x,
                     y: gridCommand.y,
-                    name: gridCommand.name
+                    name: gridCommand.name,
+                    gridGeneration: gridCommand.gridGeneration
             ).save()
         }
     }

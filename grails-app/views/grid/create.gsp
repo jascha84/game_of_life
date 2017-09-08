@@ -27,6 +27,8 @@
             </g:hasErrors>
             <g:form action="save" method="POST">
                 <fieldset class="form">
+                    <g:hiddenField name="gridGeneration" value="1" />
+
                     <f:field property="name" bean="${gridCommand}" />
                     <g:renderErrors bean="${gridCommand}" field="name" />
 
